@@ -1,7 +1,7 @@
 # sensorApp
 
-##Compile
+## Compile
 mvn clean install
 
-##Run
+## Run
 mvn spring-boot:run
