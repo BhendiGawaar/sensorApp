@@ -25,6 +25,7 @@ public class SensorService {
                 .setCo2(dto.getCo2())
                 .setTime(dto.getTime());
         measurementRepository.save(measurement);
+        //Do the status update task asynchronously as the result is not needed immediately in the response.
         statusService.updateStatusAsync(measurement);
     }
 }

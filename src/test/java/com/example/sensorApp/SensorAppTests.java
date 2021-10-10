@@ -71,6 +71,7 @@ class SensorAppTests {
 				.andExpect(content().string(mapper.writeValueAsString(expectedStatus)));
 	}
 
+	//If the CO2 level exceeds 2000 ppm the sensor status should be set to WARN
 	@Test
 	public void shouldReturnWarn() throws Exception{
 		MeasurementDto m1 = new MeasurementDto(2100, ZonedDateTime.of(2019,2,1,18,55,0,0, ZoneId.of("UTC")));
@@ -88,6 +89,8 @@ class SensorAppTests {
 				.andExpect(content().string(mapper.writeValueAsString(expectedStatus)));
 	}
 
+	//If the service receives 3 or more consecutive measurements higher than
+	//2000 the sensor status should be set to ALERT
 	@Test
 	public void shouldReturnAlert() throws Exception{
 		MeasurementDto m1 = new MeasurementDto(2100, ZonedDateTime.of(2019,2,1,18,55,1,0, ZoneId.of("UTC")));
@@ -116,6 +119,8 @@ class SensorAppTests {
 				.andExpect(content().string(mapper.writeValueAsString(expectedStatus)));
 	}
 
+	//When the sensor reaches to status ALERT it stays in this state until it receives 3
+	//consecutive measurements lower than 2000; then it moves to OK
 	@Test
 	public void fromAlertToOk() throws Exception{
 		//first, three consecutive high measurements to trigger alert
